@@ -110,7 +110,7 @@ module Kramdown
       def update_font
         if custom_font_present?
           @pdf.font_families.update(document_font => {
-            :normal => ENV['KD_FONT_PATH'])
+            :normal => ENV['KD_FONT_PATH']
           })
         end
       end
