@@ -104,7 +104,8 @@ module Kramdown
 
       def root_options(_root, _opts)
         update_font # it changes font if KD_FONT_NAME, KD_FONT_PATH present and font file exists
-        {font: document_font, size: 12, leading: 2}
+        @pdf.font document_font
+        # { font: document_font, size: 12, leading: 2 }
       end
 
       def update_font
@@ -132,7 +133,8 @@ module Kramdown
 
       def render_root(root, opts)
         @pdf = setup_document(root)
-        inner(root, root_options(root, opts))
+        root_options(root, opts)
+        # inner(root, root_options(root, opts))
         create_outline(root)
         finish_document(root)
         @pdf.render
