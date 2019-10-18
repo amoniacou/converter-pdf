@@ -1,10 +1,10 @@
 lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "kramdown/converter/pdf"
+require "kramdown/converter/pdf/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "kramdown-converter-pdf"
-  spec.version       = Kramdown::Converter::Pdf::VERSION
+  spec.version       = Kramdown::Converter::PDF_VERSION
   spec.authors       = ["Alexander Simonov"]
   spec.email         = ["alex@simonov.me"]
 
@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.add_dependency "kramdown"
   spec.add_dependency "prawn"
-  
+
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake", "~> 10.0"
 end
