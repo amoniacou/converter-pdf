@@ -103,16 +103,26 @@ module Kramdown
       # ----------------------------
 
       def root_options(_root, _opts)
-        update_font # it changes font if KD_FONT_NAME, KD_FONT_PATH present and font file exists
         @pdf.font document_font
         { font: document_font, size: 12, leading: 2 }
       end
 
       def update_font
         if custom_font_present?
+          pp "FONT FAMILIES======="
+          pp @pdf.font_families
+          pp "New FONT: #{document_font}"
+          pp "================"
           @pdf.font_families.update(document_font => {
-            :normal => ENV['KD_FONT_PATH']
+            :normal => ::File.join(ENV['KD_FONT_PATH'], 'normal.ttf'),
+            :bold => ::File.join(ENV['KD_FONT_PATH'], 'bold.ttf'),
+            :italic => ::File.join(ENV['KD_FONT_PATH'], 'italic.ttf'),
+            :bold_italic => ::File.join(ENV['KD_FONT_PATH'], 'bold_italic.ttf'),
           })
+          pp "FONT FAMILIES======="
+          pp @pdf.font_families
+          pp "New FONT: #{document_font}"
+          pp "================"
         end
       end
 
@@ -122,7 +132,7 @@ module Kramdown
           if ENV['KD_FONT_NAME'].nil? || ENV['KD_FONT_PATH'].nil?
             false
           else
-            File.file?(ENV['KD_FONT_PATH']) ? true : false # check: does font file exists
+            File.exists?(ENV['KD_FONT_PATH']) ? true : false # check: does font file exists
           end
         end
       end
@@ -133,6 +143,7 @@ module Kramdown
 
       def render_root(root, opts)
         @pdf = setup_document(root)
+        update_font # it changes font if KD_FONT_NAME, KD_FONT_PATH present and font file exists
         # root_options(root, opts)
         inner(root, root_options(root, opts))
         create_outline(root)
